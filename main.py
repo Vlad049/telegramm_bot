@@ -23,23 +23,7 @@ async def send_welcome(message: types.Message):
     await message.reply("Привіт!Я Бот-Синоптік!Напиши назву міста.")
 
 
-# @dp.message_handler(regexp='(^cat[s]?$|puss)')
-# async def cats(message: types.Message):
-#     with open('data/cats.jpg', 'rb') as photo:
-#         '''
-#         # Old fashioned way:
-#         await bot.send_photo(
-#             message.chat.id,
-#             photo,
-#             caption='Cats are here 😺',
-#             reply_to_message_id=message.message_id,
-#         )
-#         '''
-
-#         await message.reply_photo(photo, caption='Cats are here 😺')
-
-
-@dp.message_handler()
+@dp.message_handler(lambda message: message.text not in ["Фото","музика"])
 async def echo(message: types.Message):
     r1 = requests.get(
         f"http://api.openweathermap.org/data/2.5/weather?q={message.text}&appid={weather_token}&units=metric")
@@ -55,7 +39,14 @@ async def echo(message: types.Message):
     
 @dp.message_handler(regexp='Фото')
 async def photo(message: types.Message):
+    # await message.reply('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flypgs.com%2Fen%2Fcity-guide%2Fkyiv-travel-guide&psig=AOvVaw1i1TKsrJLDHONICwvwzzFT&ust=1681574577311000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCMjwn8zfqf4CFQAAAAAdAAAAABAE')
+    await bot.send_photo(chat_id=message.chat.id, photo=open('kiev.jpeg', 'rb'))
+
+
+@dp.message_handler(regexp='музика')
+async def photo(message: types.Message):
     await message.reply('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flypgs.com%2Fen%2Fcity-guide%2Fkyiv-travel-guide&psig=AOvVaw1i1TKsrJLDHONICwvwzzFT&ust=1681574577311000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCMjwn8zfqf4CFQAAAAAdAAAAABAE')
+
 
 
 if __name__ == '__main__':
